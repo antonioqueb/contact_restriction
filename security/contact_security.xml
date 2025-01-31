@@ -4,19 +4,25 @@
         <!-- Grupo para Crear Contactos -->
         <record id="group_create_contact" model="res.groups">
             <field name="name">Creador de Contactos</field>
-            <field name="category_id" ref="base.module_category_contacts"/> <!-- Corregido -->
+            <field name="category_id" ref="base.module_category_contacts"/>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
         <!-- Quitar permiso de creación del grupo base.group_user -->
-        <record id="base.access_res_partner" model="ir.model.access">
+        <record id="access_res_partner_user" model="ir.model.access">
+            <field name="name">res.partner.user</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="group_id" ref="base.group_user"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
             <field name="perm_create">0</field>
+            <field name="perm_unlink">0</field>
         </record>
 
-        <!-- Nuevo permiso para el grupo Creador de Contactos -->
+        <!-- Permiso de creación solo para el nuevo grupo -->
         <record id="access_res_partner_creator" model="ir.model.access">
             <field name="name">res.partner.creator</field>
-            <field name="model_id" ref="model_res_partner"/>
+            <field name="model_id" ref="base.model_res_partner"/>
             <field name="group_id" ref="contact_restriction.group_create_contact"/>
             <field name="perm_read">1</field>
             <field name="perm_write">1</field>
