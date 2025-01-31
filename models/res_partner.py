@@ -5,7 +5,6 @@ class ResPartner(models.Model):
 
     @api.model
     def create(self, vals):
-        user = self.env.user
-        if not (user.has_group('contact_restriction.group_create_contact') or user._is_admin()):
+        if not self.env.user.has_group('contact_restriction.group_create_contact'):
             raise exceptions.AccessError(_("⚠️ No tienes permiso para crear contactos. Contacta al administrador."))
-        return super(ResPartner, self).create(vals)
+        return super().create(vals)

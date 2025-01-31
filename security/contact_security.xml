@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!-- Categoría de permisos para Contactos -->
+        <record id="module_category_contacts_restriction" model="ir.module.category">
+            <field name="name">Contactos</field>
+            <field name="description">Permisos relacionados con la gestión de contactos</field>
+        </record>
+
         <!-- Grupo para Crear Contactos -->
         <record id="group_create_contact" model="res.groups">
             <field name="name">Creador de Contactos</field>
-            <field name="category_id" ref="base.module_category_contacts"/>
+            <field name="category_id" ref="module_category_contacts_restriction"/>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
         <!-- Quitar permiso de creación del grupo base.group_user -->
-        <record id="access_res_partner_user" model="ir.model.access">
-            <field name="name">res.partner.user</field>
+        <record id="access_res_partner_user_restriction" model="ir.model.access">
+            <field name="name">Restricción de Creación en res.partner</field>
             <field name="model_id" ref="base.model_res_partner"/>
             <field name="group_id" ref="base.group_user"/>
             <field name="perm_read">1</field>
@@ -21,9 +27,9 @@
 
         <!-- Permiso de creación solo para el nuevo grupo -->
         <record id="access_res_partner_creator" model="ir.model.access">
-            <field name="name">res.partner.creator</field>
+            <field name="name">Permiso de Creación en res.partner</field>
             <field name="model_id" ref="base.model_res_partner"/>
-            <field name="group_id" ref="contact_restriction.group_create_contact"/>
+            <field name="group_id" ref="group_create_contact"/>
             <field name="perm_read">1</field>
             <field name="perm_write">1</field>
             <field name="perm_create">1</field>
